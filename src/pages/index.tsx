@@ -3,13 +3,15 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useForm } from '@mantine/form'
-import { Button, Card, Group, Stack, TextInput, Title } from '@mantine/core'
+import { Button, Card, Group, Stack, TextInput, Title, Text } from '@mantine/core'
 import { useState } from 'react'
 
 
 export default function Home() {
   const [fullTicket, setFullTicket] = useState('')
+  const [sumFull, setSumFull] = useState('')
   const [halfTicket, setHalfTicket] = useState('')
+  const [sumHalf, setSumHalf] = useState('')
   const [expenses, setExpenses] = useState('')
   const [salary, setSalary] = useState('')
   const [bossMoney, setBossMoney] = useState('')
@@ -20,7 +22,9 @@ export default function Home() {
     console.log(pFullTicket)
     const pExpenses = expenses == '' ? 0 : parseFloat(expenses)
     const totalFullTicket = pFullTicket * 13
+    setSumFull(totalFullTicket.toFixed(2))
     const totalHalfTicket = pHalfTicket * 6
+    setSumHalf(totalHalfTicket.toFixed(2))
     const calculateSalary = pFullTicket < 100 ? 300 : pFullTicket < 150 ? 450 :
       pFullTicket < 220 ? 600 : pFullTicket < 240 ? 650 : pFullTicket < 260 ? 700 : pFullTicket < 280 ? 750 :
         pFullTicket < 300 ? 800 : pFullTicket < 320 ? 850 : pFullTicket < 340 ? 900 : pFullTicket < 360 ? 950 : pFullTicket < 380 ? 1000 :
@@ -46,7 +50,9 @@ export default function Home() {
 
     <Stack align="center" sx={{ backgroundColor: 'white', paddingTop: 50 }}>
       <TextInput label="Boletos completos" value={fullTicket} onChange={(e: any) => setFullTicket(e.currentTarget.value)} />
+      <Text fw={500}>Total boletos completos: {sumFull}</Text>
       <TextInput label="Boletos medios" value={halfTicket} onChange={(e: any) => setHalfTicket(e.currentTarget.value)} />
+      <Text fw={500}>Total boletos medios: {sumHalf}</Text>
       <TextInput label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
       <Title color='black'>Salario:{salary}</Title>
       <Title color='black'>Dinero patron:{bossMoney}</Title>
