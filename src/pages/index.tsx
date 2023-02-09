@@ -21,10 +21,11 @@ export default function Home() {
     const pExpenses = expenses == '' ? 0 : parseFloat(expenses)
     const totalFullTicket = pFullTicket * 13
     const totalHalfTicket = pHalfTicket * 6
-    const calculateSalary = pFullTicket < 220 ? 600 : pFullTicket < 240 ? 650 : pFullTicket < 260 ? 700 : pFullTicket < 280 ? 750 :
-      pFullTicket < 300 ? 800 : pFullTicket < 320 ? 850 : pFullTicket < 340 ? 900 : pFullTicket < 360 ? 950 : pFullTicket < 380 ? 1000 :
-        pFullTicket < 400 ? 1050 : pFullTicket < 420 ? 1100 : pFullTicket < 440 ? 1150 : pFullTicket < 460 ? 1200 : pFullTicket < 480 ? 1250 :
-          pFullTicket < 500 ? 1300 : 300
+    const calculateSalary = pFullTicket < 100 ? 300 : pFullTicket < 150 ? 450 :
+      pFullTicket < 220 ? 600 : pFullTicket < 240 ? 650 : pFullTicket < 260 ? 700 : pFullTicket < 280 ? 750 :
+        pFullTicket < 300 ? 800 : pFullTicket < 320 ? 850 : pFullTicket < 340 ? 900 : pFullTicket < 360 ? 950 : pFullTicket < 380 ? 1000 :
+          pFullTicket < 400 ? 1050 : pFullTicket < 420 ? 1100 : pFullTicket < 440 ? 1150 : pFullTicket < 460 ? 1200 : pFullTicket < 480 ? 1250 :
+            pFullTicket < 500 ? 1300 : 300
 
     const calculateBossMoney = totalFullTicket + totalHalfTicket - calculateSalary - pExpenses
     setSalary(calculateSalary.toFixed(2))
