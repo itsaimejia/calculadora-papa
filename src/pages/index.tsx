@@ -50,9 +50,9 @@ export default function Home() {
 
     <Stack align="center" sx={{ backgroundColor: 'white', paddingTop: 50 }}>
       <TextInput label="Boletos completos" value={fullTicket} onChange={(e: any) => setFullTicket(e.currentTarget.value)} />
-      <Text fw={500}>Total boletos completos: {sumFull}</Text>
+      <Text fw={500} color='black'>Total boletos completos: {sumFull}</Text>
       <TextInput label="Boletos medios" value={halfTicket} onChange={(e: any) => setHalfTicket(e.currentTarget.value)} />
-      <Text fw={500}>Total boletos medios: {sumHalf}</Text>
+      <Text fw={500} color='black'>Total boletos medios: {sumHalf}</Text>
       <TextInput label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
       <Title color='black'>Salario:{salary}</Title>
       <Title color='black'>Dinero patron:{bossMoney}</Title>
