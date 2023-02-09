@@ -13,14 +13,17 @@ export default function Home() {
   const [halfTicket, setHalfTicket] = useState('')
   const [sumHalf, setSumHalf] = useState('')
   const [expenses, setExpenses] = useState('')
+  const [sumExpenses, setSumExpenses] = useState('')
   const [salary, setSalary] = useState('')
   const [bossMoney, setBossMoney] = useState('')
+  const pFullTicket = parseFloat(fullTicket)
+  const pHalfTicket = parseFloat(halfTicket)
   const getSalary = () => {
     console.log(fullTicket)
-    const pFullTicket = parseFloat(fullTicket)
-    const pHalfTicket = parseFloat(halfTicket)
+
     console.log(pFullTicket)
-    const pExpenses = expenses == '' ? 0 : parseFloat(expenses)
+    const sumExpe = expenses.split('+').map((e: any) => parseFloat(e)).reduce((a: any, b: any) => a + b) ?? 0
+    setSumExpenses(sumExpe.toFixed(2))
     const totalFullTicket = pFullTicket * 13
     setSumFull(totalFullTicket.toFixed(2))
     const totalHalfTicket = pHalfTicket * 6
@@ -31,7 +34,7 @@ export default function Home() {
           pFullTicket < 400 ? 1050 : pFullTicket < 420 ? 1100 : pFullTicket < 440 ? 1150 : pFullTicket < 460 ? 1200 : pFullTicket < 480 ? 1250 :
             pFullTicket < 500 ? 1300 : 300
 
-    const calculateBossMoney = totalFullTicket + totalHalfTicket - calculateSalary - pExpenses
+    const calculateBossMoney = totalFullTicket + totalHalfTicket - calculateSalary - sumExpe
     setSalary(calculateSalary.toFixed(2))
     setBossMoney(calculateBossMoney.toFixed(2))
 
@@ -54,6 +57,7 @@ export default function Home() {
       <TextInput label="Boletos medios" value={halfTicket} onChange={(e: any) => setHalfTicket(e.currentTarget.value)} />
       <Text fw={500} color='black'>Total boletos medios: {sumHalf}</Text>
       <TextInput label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
+      <Text fw={500} color='black'>Gastos: {expenses} = {sumExpenses}</Text>
       <Title color='black'>Salario:{salary}</Title>
       <Title color='black'>Dinero patron:{bossMoney}</Title>
       <Button size="md" color='green' onClick={() => getSalary()}>
