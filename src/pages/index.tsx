@@ -3,46 +3,52 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useForm } from '@mantine/form'
-import { Button, Card, Group, Stack, TextInput, Title, Text } from '@mantine/core'
+import { Button, Card, Group, Stack, TextInput, Title, Text, NumberInput } from '@mantine/core'
 import { useState } from 'react'
 
 
 export default function Home() {
-  const [fullTicket, setFullTicket] = useState('')
-  const [sumFull, setSumFull] = useState('')
-  const [halfTicket, setHalfTicket] = useState('')
+  const [date] = useState(new Date());
+  const [fullTicket, setFullTicket] = useState(0.0)
+  const [halfTicket, setHalfTicket] = useState(0.0)
   const [sumHalf, setSumHalf] = useState('')
   const [expenses, setExpenses] = useState('')
-  const [sumExpenses, setSumExpenses] = useState('')
+
   const [salary, setSalary] = useState('')
   const [bossMoney, setBossMoney] = useState('')
-  const pFullTicket = parseFloat(fullTicket)
-  const pHalfTicket = parseFloat(halfTicket)
-  const getSalary = () => {
-    console.log(fullTicket)
 
-    console.log(pFullTicket)
-    const sumExpe = expenses.split('+').map((e: any) => parseFloat(e)).reduce((a: any, b: any) => a + b) ?? 0
-    setSumExpenses(sumExpe.toFixed(2))
-    const totalFullTicket = pFullTicket * 13
-    setSumFull(totalFullTicket.toFixed(2))
-    const totalHalfTicket = pHalfTicket * 6
-    setSumHalf(totalHalfTicket.toFixed(2))
-    const calculateSalary = pFullTicket < 100 ? 300 : pFullTicket < 150 ? 450 :
-      pFullTicket < 220 ? 600 : pFullTicket < 240 ? 650 : pFullTicket < 260 ? 700 : pFullTicket < 280 ? 750 :
-        pFullTicket < 300 ? 800 : pFullTicket < 320 ? 850 : pFullTicket < 340 ? 900 : pFullTicket < 360 ? 950 : pFullTicket < 380 ? 1000 :
-          pFullTicket < 400 ? 1050 : pFullTicket < 420 ? 1100 : pFullTicket < 440 ? 1150 : pFullTicket < 460 ? 1200 : pFullTicket < 480 ? 1250 :
-            pFullTicket < 500 ? 1300 : 300
 
-    const calculateBossMoney = totalFullTicket + totalHalfTicket - calculateSalary - sumExpe
-    setSalary(calculateSalary.toFixed(2))
-    setBossMoney(calculateBossMoney.toFixed(2))
+  const totalFullTicket = () => fullTicket * 13
+  const totalHalfTicket = () => halfTicket * 6
+  const sumExpenses = () => expenses.split('+').map((e: any) => parseFloat(e)).reduce((a: any, b: any) => a + b)
+  const getSalary = () => fullTicket == 0 ? 0 : fullTicket < 100 ? 300 : fullTicket < 150 ? 450 :
+    fullTicket < 220 ? 600 : fullTicket < 240 ? 650 : fullTicket < 260 ? 700 : fullTicket < 280 ? 750 :
+      fullTicket < 300 ? 800 : fullTicket < 320 ? 850 : fullTicket < 340 ? 900 : fullTicket < 360 ? 950 : fullTicket < 380 ? 1000 :
+        fullTicket < 400 ? 1050 : fullTicket < 420 ? 1100 : fullTicket < 440 ? 1150 : fullTicket < 460 ? 1200 : fullTicket < 480 ? 1250 :
+          fullTicket < 500 ? 1300 : 0
+
+  const getBossMoney = () => totalFullTicket() + totalHalfTicket() - sumExpenses() - getSalary()
+
+  const parseNaN = (n: any) => Number.isNaN(n) ? 0 : n
+
+  const getDate = () => {
+    date.getDay()
+    const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    const formatDate = () => {
+      const dateS = date.toDateString().split(' ')
+      let dayM = dateS[2]
+      let month = dateS[1]
+      let year = dateS[3]
+      return `${dayM} ${month} ${year}`
+    }
+    return `${days[date.getDay() - 1]} ${formatDate()}`
 
   }
+  console.log(date.toDateString())
 
   const cleanAll = () => {
-    setFullTicket('')
-    setHalfTicket('')
+    setFullTicket(0)
+    setHalfTicket(0)
     setExpenses('')
     setSalary('')
     setBossMoney('')
@@ -52,17 +58,25 @@ export default function Home() {
 
 
     <Stack align="center" sx={{ backgroundColor: 'white', paddingTop: 50 }}>
-      <TextInput label="Boletos completos" value={fullTicket} onChange={(e: any) => setFullTicket(e.currentTarget.value)} />
-      <Text fw={500} color='black'>Total boletos completos: {sumFull}</Text>
-      <TextInput label="Boletos medios" value={halfTicket} onChange={(e: any) => setHalfTicket(e.currentTarget.value)} />
-      <Text fw={500} color='black'>Total boletos medios: {sumHalf}</Text>
-      <TextInput label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
-      <Text fw={500} color='black'>Gastos: {expenses} = {sumExpenses}</Text>
-      <Title color='black'>Salario:{salary}</Title>
-      <Title color='black'>Dinero patron:{bossMoney}</Title>
-      <Button size="md" color='green' onClick={() => getSalary()}>
-        Calcular
-      </Button>
+      <Title color='black'>{getDate()}</Title>
+      <NumberInput
+        label="Boletos completos"
+        value={fullTicket} onChange={(v: any) => setFullTicket(v)}
+        size="lg"
+        hideControls
+      />
+      <Text fw={500} size='lg' color='black'>Total boletos completos: {parseNaN(totalFullTicket())}</Text>
+      <NumberInput
+        label="Boletos medios" value={halfTicket}
+        onChange={(v: any) => setHalfTicket(v)}
+        size="lg"
+        hideControls
+      />
+      <Text fw={500} size='lg' color='black'>Total boletos medios: {parseNaN(totalHalfTicket())}</Text>
+      <TextInput size="lg" label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
+      <Text fw={500} size='lg' color='black'>Gastos: {expenses} = {parseNaN(sumExpenses())}</Text>
+      <Title color='black'>Salario: {getSalary()}</Title>
+      <Title color='black'>Dinero patron: {parseNaN(getBossMoney())}</Title>
       <Button size="xs" color='red' onClick={() => cleanAll()}>
         Limpiar
       </Button>
