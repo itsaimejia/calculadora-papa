@@ -57,7 +57,7 @@ export default function Home() {
   return (
 
 
-    <Stack align="center" sx={{ backgroundColor: 'white', paddingTop: 50 }}>
+    <Stack align="center" sx={{ backgroundColor: 'white' }}>
       <Title color='black'>{getDate()}</Title>
       <NumberInput
         label="Boletos completos"
