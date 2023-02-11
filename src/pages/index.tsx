@@ -76,7 +76,7 @@ export default function Home() {
       <TextInput size="lg" label="Gastos" value={expenses} onChange={(e: any) => setExpenses(e.currentTarget.value)} />
       <Text fw={500} size='lg' color='black'>Gastos: {expenses} = {parseNaN(sumExpenses())}</Text>
       <Title color='black'>Salario: {getSalary()}</Title>
-      <Title color='black'>Dinero patron: {parseNaN(getBossMoney())}</Title>
+      <Title color='black'>Patrón: {parseNaN(getBossMoney())}</Title>
       <Button size="xs" color='red' onClick={() => cleanAll()}>
         Limpiar
       </Button>
